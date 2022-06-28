@@ -42,6 +42,7 @@ ARG OBSERVIUM_DB_HOST=observiumdb
 ARG OBSERVIUM_DB_USER=observium
 ARG OBSERVIUM_DB_PASS=passw0rd
 ARG OBSERVIUM_DB_NAME=observium
+ARG OBSERVIUM_DB_PORT=3306
 
 # set environment variables
 ENV LANG en_US.UTF-8
@@ -50,6 +51,7 @@ ENV OBSERVIUM_DB_HOST=$OBSERVIUM_DB_HOST
 ENV OBSERVIUM_DB_USER=$OBSERVIUM_DB_USER
 ENV OBSERVIUM_DB_PASS=$OBSERVIUM_DB_PASS
 ENV OBSERVIUM_DB_NAME=$OBSERVIUM_DB_NAME
+ENV OBSERVIUM_DB_PORT=$OBSERVIUM_DB_PORT
 
 # install prerequisites and cleanup
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -87,6 +89,7 @@ RUN cd /opt/observium && \
     sed -i -e "s/= 'USERNAME';/= getenv('OBSERVIUM_DB_USER');/g" config.php && \
     sed -i -e "s/= 'PASSWORD';/= getenv('OBSERVIUM_DB_PASS');/g" config.php && \
     sed -i -e "s/= 'observium';/= getenv('OBSERVIUM_DB_NAME');/g" config.php && \
+    sed -i -e "s/= 'observium';/= getenv('OBSERVIUM_DB_PORT');/g" config.php && \
     echo "\$config['base_url'] = getenv('OBSERVIUM_BASE_URL');" >> config.php
 
 COPY observium-init.sh /opt/observium/observium-init.sh

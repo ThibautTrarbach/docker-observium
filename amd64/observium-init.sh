@@ -7,7 +7,7 @@ while [ $rc -ne 0 ]
 do
    let count++
    echo "[$count] Verifying coonection to observium database."
-    -h $OBSERVIUM_DB_HOST -u $OBSERVIUM_DB_USER --password=$OBSERVIUM_DB_PASS --port=$OBSERVIUM_DB_PORT -e "select 1" $OBSERVIUM_DB_NAME >/dev/null
+   mysql -h $OBSERVIUM_DB_HOST -u $OBSERVIUM_DB_USER --password=$OBSERVIUM_DB_PASS --port=$OBSERVIUM_DB_PORT -e "select 1" $OBSERVIUM_DB_NAME >/dev/null
    rc=$?
    [ $rc -ne 0 ] && sleep 5
 done

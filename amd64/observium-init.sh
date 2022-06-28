@@ -7,14 +7,14 @@ while [ $rc -ne 0 ]
 do
    let count++
    echo "[$count] Verifying coonection to observium database."
-   mysql -h $OBSERVIUM_DB_HOST -u $OBSERVIUM_DB_USER --password=$OBSERVIUM_DB_PASS -e "select 1" $OBSERVIUM_DB_NAME >/dev/null
+    -h $OBSERVIUM_DB_HOST -u $OBSERVIUM_DB_USER --password=$OBSERVIUM_DB_PASS --port=$OBSERVIUM_DB_PORT -e "select 1" $OBSERVIUM_DB_NAME >/dev/null
    rc=$?
    [ $rc -ne 0 ] && sleep 5
 done
 
 echo "Connected to observium database successfully."
 
-tables=`mysql -h $OBSERVIUM_DB_HOST -u $OBSERVIUM_DB_USER --password=$OBSERVIUM_DB_PASS -e "show tables" $OBSERVIUM_DB_NAME 2>/dev/null`
+tables=`mysql -h $OBSERVIUM_DB_HOST -u $OBSERVIUM_DB_USER --password=$OBSERVIUM_DB_PASS --port=$OBSERVIUM_DB_PORT -e "show tables" $OBSERVIUM_DB_NAME 2>/dev/null`
 
 if [ -z "$tables" ]
 then
@@ -34,5 +34,6 @@ echo "export OBSERVIUM_DB_HOST=$OBSERVIUM_DB_HOST" >> /opt/observium/observium-s
 echo "export OBSERVIUM_DB_USER=$OBSERVIUM_DB_USER" >> /opt/observium/observium-setenv.sh
 echo "export OBSERVIUM_DB_PASS=$OBSERVIUM_DB_PASS" >> /opt/observium/observium-setenv.sh
 echo "export OBSERVIUM_DB_NAME=$OBSERVIUM_DB_NAME" >> /opt/observium/observium-setenv.sh
+echo "export OBSERVIUM_DB_PORT=$OBSERVIUM_DB_PORT" >> /opt/observium/observium-setenv.sh
 
 exit 0
